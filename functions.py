@@ -9,7 +9,7 @@ import serial
 def send_data(arduino, x, y):
     message = 'S' + str(x).zfill(3) + str(y).zfill(3)
     arduino.write(message.encode())
-    print(message)
+    # print(message)
 
 # Connects serial port to arduino
 def connect_arduino(port):
@@ -85,8 +85,6 @@ def calibrate_camera(img):
 # Finds raw x,y pixle ball position
 def findBall(img):
     found = True
-    x = 0
-    y = 0
 
     img_blur = cv2.GaussianBlur(img,(3,3), sigmaX=0, sigmaY=0)
     hsv = cv2.cvtColor(img_blur, cv2.COLOR_BGR2HSV)

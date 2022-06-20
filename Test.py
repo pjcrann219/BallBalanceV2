@@ -12,27 +12,29 @@ send_data(arduino, 90, 90)
 # Settup camera
 cam = cv2.VideoCapture(0)
 
+
 while True:
     ret, img = cam.read()
-    img = cv2.flip(img[0:690, 300:929], -1)
+    img = cv2.flip(img, -1)
     worked, x_center, y_center, scale_pixle, result = calibrate_camera(img)
     if worked:
         print(scale_pixle)
         # cv2.startWindowThread()
         # cv2.imshow('mask', result)
+        # cv2.imshow('img', img)
+        # # cv2.waitKey(0)
+        # # cv2.destroyAllWindows()
         # cv2.waitKey(0)
-        # cv2.destroyAllWindows()
-        # cv2.waitKey(1)
         break
 
 print('Center and Scale found')
 
-scale_mm = 135
+scale_mm = 140
 scale = scale_mm / scale_pixle
 x_setpoint = y_setpoint = 0
 
-Kp_x = Kp_y = 0.50
-Kd_x = Kd_y = 0.205
+Kp_x = Kp_y = 0.8
+Kd_x = Kd_y = 0
 
 t_start = time.time()
 t_last = t_start
@@ -47,7 +49,7 @@ y_der_save = np.empty(1)
 
 while True:
     ret, img = cam.read()
-    img = cv2.flip(img[0:690, 300:929], -1)
+    img = cv2.flip(img, -1)
     found, x_pixle, y_pixle, result = findBall(img)
     if found:
         cv2.imshow('result', result)
